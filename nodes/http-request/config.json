@@ -1,0 +1,23 @@
+{
+  "name": "http-request",
+  "displayName": "HTTP Request",
+  "description": "Make an HTTP request to any URL. Supports GET, POST, PUT, PATCH, DELETE with custom headers and JSON body.",
+  "category": "Utility",
+  "icon": "🌐",
+  "version": "1.0.0",
+  "inputs": [
+    { "name": "url", "type": "string", "required": true, "description": "The URL to send the request to" },
+    { "name": "method", "type": "string", "required": false, "description": "HTTP method (GET, POST, PUT, PATCH, DELETE)", "default": "GET" },
+    { "name": "headers", "type": "json", "required": false, "description": "Custom headers as a JSON object" },
+    { "name": "body", "type": "json", "required": false, "description": "Request body (for POST/PUT/PATCH)" },
+    { "name": "timeout", "type": "number", "required": false, "description": "Timeout in milliseconds", "default": 10000 }
+  ],
+  "outputs": [
+    { "name": "status", "type": "number", "description": "HTTP status code" },
+    { "name": "headers", "type": "json", "description": "Response headers" },
+    { "name": "body", "type": "json", "description": "Parsed response body (JSON if possible, otherwise text)" },
+    { "name": "ok", "type": "boolean", "description": "Whether the response status was 2xx" }
+  ],
+  "credentials": [],
+  "tags": ["http", "api", "fetch", "request", "webhook"]
+}

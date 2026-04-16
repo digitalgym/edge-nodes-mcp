@@ -1,0 +1,24 @@
+{
+  "name": "twilio-sms",
+  "displayName": "Twilio SMS",
+  "description": "Send an SMS message via Twilio. Supports AU phone number normalisation and message templating.",
+  "category": "Communication",
+  "icon": "📱",
+  "version": "1.0.0",
+  "inputs": [
+    { "name": "to", "type": "string", "required": true, "description": "Recipient phone number (E.164 format or AU mobile like 04XX XXX XXX)" },
+    { "name": "body", "type": "string", "required": true, "description": "SMS message body" },
+    { "name": "from", "type": "string", "required": false, "description": "Override the sender number (defaults to TWILIO_FROM_NUMBER env var)" }
+  ],
+  "outputs": [
+    { "name": "sid", "type": "string", "description": "Twilio message SID" },
+    { "name": "status", "type": "string", "description": "Message status (queued, sent, etc.)" },
+    { "name": "to", "type": "string", "description": "Normalised recipient number" }
+  ],
+  "credentials": [
+    { "envVar": "TWILIO_ACCOUNT_SID", "label": "Twilio Account SID", "required": true, "description": "Your Twilio Account SID" },
+    { "envVar": "TWILIO_AUTH_TOKEN", "label": "Twilio Auth Token", "required": true, "description": "Your Twilio Auth Token" },
+    { "envVar": "TWILIO_FROM_NUMBER", "label": "Twilio From Number", "required": true, "description": "Your Twilio phone number in E.164 format" }
+  ],
+  "tags": ["sms", "twilio", "notification", "messaging", "australia"]
+}

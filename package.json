@@ -1,0 +1,22 @@
+{
+  "name": "edge-nodes-mcp",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc --noEmit",
+    "dev": "vercel dev",
+    "deploy": "vercel deploy --prod",
+    "generate-registry": "tsx mcp/src/generate-registry.ts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.1",
+    "mcp-handler": "^1.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7",
+    "vercel": "^41"
+  }
+}

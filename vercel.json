@@ -1,0 +1,10 @@
+{
+  "buildCommand": "npm run build",
+  "rewrites": [
+    { "source": "/node/:name", "destination": "/api/node?name=$name" }
+  ],
+  "functions": {
+    "api/mcp/[transport]/route.ts": { "maxDuration": 60 },
+    "api/node/route.ts": { "maxDuration": 25 }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "name": "grok-prompt",
+  "displayName": "Grok / xAI Prompt",
+  "description": "Send a prompt to xAI's Grok model. Supports system prompts, JSON mode, and temperature control. Useful for classification, correction, summarisation, and generation tasks.",
+  "category": "AI",
+  "icon": "🤖",
+  "version": "1.0.0",
+  "inputs": [
+    { "name": "prompt", "type": "string", "required": true, "description": "The user message / prompt to send" },
+    { "name": "system", "type": "string", "required": false, "description": "Optional system prompt to guide behaviour" },
+    { "name": "model", "type": "string", "required": false, "description": "Model ID (default: grok-3-mini)", "default": "grok-3-mini" },
+    { "name": "jsonMode", "type": "boolean", "required": false, "description": "If true, forces JSON output via response_format", "default": false },
+    { "name": "temperature", "type": "number", "required": false, "description": "Sampling temperature (0-2)", "default": 0.7 },
+    { "name": "maxTokens", "type": "number", "required": false, "description": "Max tokens to generate", "default": 1000 }
+  ],
+  "outputs": [
+    { "name": "content", "type": "string", "description": "Raw text response from Grok" },
+    { "name": "parsed", "type": "json", "description": "Parsed JSON if jsonMode was enabled (null otherwise)" },
+    { "name": "model", "type": "string", "description": "Model that was used" },
+    { "name": "usage", "type": "json", "description": "Token usage stats" }
+  ],
+  "credentials": [
+    { "envVar": "XAI_API_KEY", "label": "xAI API Key", "required": true, "description": "Your xAI API key for Grok access" }
+  ],
+  "tags": ["ai", "grok", "xai", "llm", "classification", "generation"]
+}

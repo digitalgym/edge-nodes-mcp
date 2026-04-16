@@ -1,0 +1,26 @@
+{
+  "name": "google-places-lookup",
+  "displayName": "Google Places Lookup",
+  "description": "Verify and autocomplete an address using the Google Places API. Returns structured address components (street, suburb, state, postcode). Restricted to Australian addresses by default.",
+  "category": "Data",
+  "icon": "📍",
+  "version": "1.0.0",
+  "inputs": [
+    { "name": "address", "type": "string", "required": true, "description": "Raw address string to look up" },
+    { "name": "country", "type": "string", "required": false, "description": "Country code to restrict results (default: 'au')", "default": "au" }
+  ],
+  "outputs": [
+    { "name": "matched", "type": "boolean", "description": "Whether a match was found" },
+    { "name": "formattedAddress", "type": "string", "description": "Full formatted address" },
+    { "name": "streetNumber", "type": "string", "description": "Street number" },
+    { "name": "street", "type": "string", "description": "Street name" },
+    { "name": "suburb", "type": "string", "description": "Suburb / locality" },
+    { "name": "state", "type": "string", "description": "State" },
+    { "name": "postcode", "type": "string", "description": "Postal code" },
+    { "name": "alternatives", "type": "array", "description": "Top 3 alternative address suggestions" }
+  ],
+  "credentials": [
+    { "envVar": "GOOGLE_API_KEY", "label": "Google API Key", "required": true, "description": "Google Cloud API key with Places API enabled" }
+  ],
+  "tags": ["address", "google", "places", "geocoding", "australia"]
+}

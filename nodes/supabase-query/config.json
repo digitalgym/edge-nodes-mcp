@@ -1,0 +1,26 @@
+{
+  "name": "supabase-query",
+  "displayName": "Supabase Query",
+  "description": "Query or insert data into a Supabase table via the REST API. Supports select, insert, update, upsert, and delete operations.",
+  "category": "Data",
+  "icon": "⚡",
+  "version": "1.0.0",
+  "inputs": [
+    { "name": "table", "type": "string", "required": true, "description": "Table name to operate on" },
+    { "name": "operation", "type": "string", "required": false, "description": "Operation: select, insert, update, upsert, delete (default: select)", "default": "select" },
+    { "name": "data", "type": "json", "required": false, "description": "Data for insert/update/upsert (object or array of objects)" },
+    { "name": "filters", "type": "string", "required": false, "description": "PostgREST filter string (e.g. 'id=eq.5' or 'status=eq.active&created_at=gte.2024-01-01')" },
+    { "name": "select", "type": "string", "required": false, "description": "Columns to select (default: *)", "default": "*" },
+    { "name": "limit", "type": "number", "required": false, "description": "Max rows to return", "default": 100 },
+    { "name": "order", "type": "string", "required": false, "description": "Order by column (e.g. 'created_at.desc')" }
+  ],
+  "outputs": [
+    { "name": "rows", "type": "array", "description": "Returned rows (for select) or affected rows (for mutations)" },
+    { "name": "count", "type": "number", "description": "Number of rows returned/affected" }
+  ],
+  "credentials": [
+    { "envVar": "SUPABASE_URL", "label": "Supabase URL", "required": true, "description": "Your Supabase project URL (e.g. https://xyz.supabase.co)" },
+    { "envVar": "SUPABASE_SERVICE_KEY", "label": "Supabase Service Key", "required": true, "description": "Supabase service_role key (full access)" }
+  ],
+  "tags": ["supabase", "database", "postgres", "query", "insert", "api"]
+}

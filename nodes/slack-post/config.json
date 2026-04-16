@@ -1,0 +1,23 @@
+{
+  "name": "slack-post",
+  "displayName": "Slack Post",
+  "description": "Post a message to a Slack channel using the Slack Web API. Supports markdown formatting and optional thread replies.",
+  "category": "Communication",
+  "icon": "💬",
+  "version": "1.0.0",
+  "inputs": [
+    { "name": "channel", "type": "string", "required": true, "description": "Slack channel ID (e.g. 'C01ABCDEF') or channel name (e.g. '#general')" },
+    { "name": "text", "type": "string", "required": true, "description": "Message text (supports Slack mrkdwn)" },
+    { "name": "threadTs", "type": "string", "required": false, "description": "Thread timestamp to reply in a thread" },
+    { "name": "username", "type": "string", "required": false, "description": "Override the bot username" },
+    { "name": "iconEmoji", "type": "string", "required": false, "description": "Override the bot icon (e.g. ':robot_face:')" }
+  ],
+  "outputs": [
+    { "name": "ts", "type": "string", "description": "Message timestamp (can be used for threading)" },
+    { "name": "channel", "type": "string", "description": "Channel the message was posted to" }
+  ],
+  "credentials": [
+    { "envVar": "SLACK_BOT_TOKEN", "label": "Slack Bot Token", "required": true, "description": "Slack Bot User OAuth Token (xoxb-...)" }
+  ],
+  "tags": ["slack", "notification", "messaging", "chat"]
+}

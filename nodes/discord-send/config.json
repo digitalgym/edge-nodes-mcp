@@ -1,0 +1,23 @@
+{
+  "name": "discord-send",
+  "displayName": "Discord Send",
+  "description": "Send a message to a Discord channel via webhook URL or Bot API. Supports embeds and markdown.",
+  "category": "Communication",
+  "icon": "🎮",
+  "version": "1.0.0",
+  "inputs": [
+    { "name": "webhookUrl", "type": "string", "required": false, "description": "Discord webhook URL (use this OR channelId + bot token)" },
+    { "name": "channelId", "type": "string", "required": false, "description": "Discord channel ID (requires DISCORD_BOT_TOKEN credential)" },
+    { "name": "content", "type": "string", "required": true, "description": "Message content (supports Discord markdown)" },
+    { "name": "username", "type": "string", "required": false, "description": "Override webhook username" },
+    { "name": "embeds", "type": "array", "required": false, "description": "Array of Discord embed objects" }
+  ],
+  "outputs": [
+    { "name": "id", "type": "string", "description": "Message ID (only available via Bot API)" },
+    { "name": "sent", "type": "boolean", "description": "Whether the message was sent successfully" }
+  ],
+  "credentials": [
+    { "envVar": "DISCORD_BOT_TOKEN", "label": "Discord Bot Token", "required": false, "description": "Discord bot token (only needed if using channelId instead of webhookUrl)" }
+  ],
+  "tags": ["discord", "notification", "messaging", "chat", "webhook"]
+}

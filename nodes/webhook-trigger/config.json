@@ -1,0 +1,21 @@
+{
+  "name": "webhook-trigger",
+  "displayName": "Webhook Trigger",
+  "description": "Receive and parse incoming webhook payloads. Acts as a pass-through that validates and extracts data from webhook requests. Use as the first step in a workflow to process external events.",
+  "category": "Trigger",
+  "icon": "🪝",
+  "version": "1.0.0",
+  "inputs": [
+    { "name": "payload", "type": "json", "required": true, "description": "The raw webhook payload (JSON body)" },
+    { "name": "headers", "type": "json", "required": false, "description": "Request headers (for signature verification)" },
+    { "name": "extract", "type": "string", "required": false, "description": "Dot-notation path to extract from payload (e.g. 'data.customer.email')" },
+    { "name": "secret", "type": "string", "required": false, "description": "Expected secret/token for basic validation (checked against X-Webhook-Secret header)" }
+  ],
+  "outputs": [
+    { "name": "payload", "type": "json", "description": "The full parsed webhook payload" },
+    { "name": "extracted", "type": "json", "description": "Extracted value if 'extract' path was provided" },
+    { "name": "verified", "type": "boolean", "description": "Whether the webhook secret matched (true if no secret configured)" }
+  ],
+  "credentials": [],
+  "tags": ["webhook", "trigger", "inbound", "event", "http"]
+}
