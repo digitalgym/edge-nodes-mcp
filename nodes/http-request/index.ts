@@ -1,4 +1,4 @@
-import type { NodeHandler } from "../../mcp/src/types.js";
+import type { NodeHandler } from "../../mcp/src/types";
 
 const handler: NodeHandler = async ({ input }) => {
   const url = input.url as string;

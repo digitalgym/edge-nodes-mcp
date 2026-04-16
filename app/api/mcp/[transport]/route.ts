@@ -1,12 +1,5 @@
-/**
- * Vercel entry point for the MCP server.
- *
- * Handles both SSE and Streamable HTTP transports via mcp-handler.
- * Routes: /api/mcp/sse, /api/mcp/mcp (streamable HTTP)
- */
-
 import { createMcpHandler } from "mcp-handler";
-import { registerTools } from "../../../mcp/src/server.js";
+import { registerTools } from "@mcp/server";
 
 const handler = createMcpHandler(
   (server) => {

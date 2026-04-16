@@ -1,4 +1,4 @@
-import type { NodeHandler } from "../../mcp/src/types.js";
+import type { NodeHandler } from "../../mcp/src/types";
 
 type AutocompletePrediction = { place_id: string; description: string };
 type AddressComponent = { long_name: string; types: string[] };
