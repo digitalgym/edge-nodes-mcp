@@ -4,4 +4,5 @@ dist/
 .env
 .env.local
 .env.*.local
+.mcp.json
 *.tsbuildinfo
