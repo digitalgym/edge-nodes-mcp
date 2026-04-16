@@ -9,24 +9,23 @@
  * simple to add a new node (just create the folder, then run this).
  */
 
-import { readdirSync, readFileSync, writeFileSync, existsSync } from "fs";
-import { join, dirname } from "path";
-import { fileURLToPath } from "url";
+const fs = require("fs") as typeof import("fs");
+const path = require("path") as typeof import("path");
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const nodesDir = join(__dirname, "../../nodes");
-const registryPath = join(__dirname, "registry.ts");
+const nodesDir = path.join(__dirname, "../../nodes");
+const registryPath = path.join(__dirname, "registry.ts");
 
 function toCamelCase(name: string): string {
-  return name.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
+  return name.replace(/-([a-z])/g, (_, c: string) => c.toUpperCase());
 }
 
 // Discover all node directories that have both config.json and index.ts
-const nodeDirs = readdirSync(nodesDir, { withFileTypes: true })
+const nodeDirs = fs
+  .readdirSync(nodesDir, { withFileTypes: true })
   .filter((d) => d.isDirectory())
   .filter((d) => {
-    const hasConfig = existsSync(join(nodesDir, d.name, "config.json"));
-    const hasIndex = existsSync(join(nodesDir, d.name, "index.ts"));
+    const hasConfig = fs.existsSync(path.join(nodesDir, d.name, "config.json"));
+    const hasIndex = fs.existsSync(path.join(nodesDir, d.name, "index.ts"));
     if (hasConfig && !hasIndex) console.warn(`⚠ ${d.name}: has config.json but no index.ts — skipping`);
     if (!hasConfig && hasIndex) console.warn(`⚠ ${d.name}: has index.ts but no config.json — skipping`);
     return hasConfig && hasIndex;
@@ -36,23 +35,22 @@ const nodeDirs = readdirSync(nodesDir, { withFileTypes: true })
 
 console.log(`Found ${nodeDirs.length} nodes: ${nodeDirs.join(", ")}`);
 
-// Build import lines
-const imports: string[] = [];
-const registers: string[] = [];
+// Build handler import lines and config require lines
+const handlerImports: string[] = [];
+const configRequires: string[] = [];
+const registerCalls: string[] = [];
 
 for (const dir of nodeDirs) {
   const varName = toCamelCase(dir);
-  imports.push(`import ${varName}Config from "../../nodes/${dir}/config.json" with { type: "json" };`);
-  imports.push(`import { default as ${varName}Handler } from "../../nodes/${dir}/index.js";`);
-  registers.push(`register(${varName}Config as NodeConfig, ${varName}Handler);`);
+  handlerImports.push(`import ${varName}Handler from "../../nodes/${dir}/index.js";`);
+  configRequires.push(`const ${varName}Config = require("../../nodes/${dir}/config.json") as NodeConfig;`);
+  registerCalls.push(`register(${varName}Config, ${varName}Handler);`);
 }
 
-const importBlock = imports.join("\n");
-const registerBlock = registers.join("\n");
-
 // Read current registry.ts and patch between markers
-let source = readFileSync(registryPath, "utf-8");
+let source = fs.readFileSync(registryPath, "utf-8");
 
+// Patch handler imports between __REGISTRY_START__ / __REGISTRY_END__
 const startMarker = "// __REGISTRY_START__";
 const endMarker = "// __REGISTRY_END__";
 const startIdx = source.indexOf(startMarker);
@@ -63,28 +61,48 @@ if (startIdx === -1 || endIdx === -1) {
   process.exit(1);
 }
 
-const before = source.slice(0, startIdx + startMarker.length);
-const after = source.slice(endIdx);
+source =
+  source.slice(0, startIdx + startMarker.length) +
+  "\n" +
+  handlerImports.join("\n") +
+  "\n" +
+  source.slice(endIdx);
 
-source = `${before}\n${importBlock}\n${after}`;
+// Patch config requires between __CONFIGS_START__ / __CONFIGS_END__
+const cfgStart = "// __CONFIGS_START__";
+const cfgEnd = "// __CONFIGS_END__";
+const cfgStartIdx = source.indexOf(cfgStart);
+const cfgEndIdx = source.indexOf(cfgEnd);
 
-// Now patch the register() calls — find the block after "Register all imported nodes"
-const registerMarker = "// Register all imported nodes";
-const registerIdx = source.indexOf(registerMarker);
-if (registerIdx === -1) {
-  console.error("Could not find register marker in registry.ts");
+if (cfgStartIdx === -1 || cfgEndIdx === -1) {
+  console.error("Could not find __CONFIGS_START__ / __CONFIGS_END__ markers in registry.ts");
   process.exit(1);
 }
 
-// Find the next blank line or "// ──" section divider after register calls
-const afterRegister = source.slice(registerIdx + registerMarker.length);
-const nextSectionMatch = afterRegister.match(/\n\n\/\/ ──/);
-const nextSectionIdx = nextSectionMatch?.index ?? afterRegister.length;
+source =
+  source.slice(0, cfgStartIdx + cfgStart.length) +
+  "\n" +
+  configRequires.join("\n") +
+  "\n" +
+  source.slice(cfgEndIdx);
 
-const beforeRegisters = source.slice(0, registerIdx + registerMarker.length);
-const afterRegisters = source.slice(registerIdx + registerMarker.length + nextSectionIdx);
+// Patch register calls between __REGISTER_START__ / __REGISTER_END__
+const regStart = "// __REGISTER_START__";
+const regEnd = "// __REGISTER_END__";
+const regStartIdx = source.indexOf(regStart);
+const regEndIdx = source.indexOf(regEnd);
 
-source = `${beforeRegisters}\n${registerBlock}\n${afterRegisters}`;
+if (regStartIdx === -1 || regEndIdx === -1) {
+  console.error("Could not find __REGISTER_START__ / __REGISTER_END__ markers in registry.ts");
+  process.exit(1);
+}
 
-writeFileSync(registryPath, source, "utf-8");
+source =
+  source.slice(0, regStartIdx + regStart.length) +
+  "\n" +
+  registerCalls.join("\n") +
+  "\n" +
+  source.slice(regEndIdx);
+
+fs.writeFileSync(registryPath, source, "utf-8");
 console.log(`✓ Updated registry.ts with ${nodeDirs.length} nodes`);

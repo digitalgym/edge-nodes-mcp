@@ -1,4 +1,4 @@
-import type { NodeHandler } from "../../mcp/src/types.js";
+import type { NodeHandler } from "../../mcp/src/types";
 
 function extractPath(obj: unknown, path: string): unknown {
   const parts = path.split(".");

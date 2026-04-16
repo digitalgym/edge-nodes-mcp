@@ -16,9 +16,9 @@
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
-import { getNode, listNodeSummaries, getNodeConfigs } from "./registry.js";
-import { executeWorkflow } from "./workflow-engine.js";
-import type { Workflow, WorkflowStep } from "./types.js";
+import { getNode, listNodeSummaries, getNodeConfigs } from "./registry";
+import { executeWorkflow } from "./workflow-engine";
+import type { Workflow, WorkflowStep } from "./types";
 
 // Reusable schema fragments (zod v4: z.record needs key + value types)
 const stepSchema = z.object({

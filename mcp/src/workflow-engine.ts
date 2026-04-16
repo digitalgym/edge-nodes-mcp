@@ -5,8 +5,8 @@
  * evaluates conditions, and passes output from one step to the next.
  */
 
-import { getNode } from "./registry.js";
-import type { Workflow, WorkflowStep, NodeExecutionOutput } from "./types.js";
+import { getNode } from "./registry";
+import type { Workflow, WorkflowStep, NodeExecutionOutput } from "./types";
 
 export interface StepResult {
   stepId: string;

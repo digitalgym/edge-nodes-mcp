@@ -17,9 +17,10 @@
     "types": ["node"],
     "paths": {
       "@nodes/*": ["./nodes/*"],
-      "@mcp/*": ["./mcp/src/*"]
+      "@mcp/*": ["./mcp/src/*"],
+      "@/*": ["./*"]
     }
   },
-  "include": ["mcp/**/*.ts", "nodes/**/*.ts", "api/**/*.ts"],
-  "exclude": ["node_modules", "dist", ".vercel", "mcp/src/generate-registry.ts"]
+  "include": ["mcp/**/*.ts", "nodes/**/*.ts", "app/**/*.ts", "next.config.ts", "next-env.d.ts"],
+  "exclude": ["node_modules", "dist", ".vercel", ".next", "mcp/src/generate-registry.ts"]
 }

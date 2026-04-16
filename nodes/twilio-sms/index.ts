@@ -1,4 +1,4 @@
-import type { NodeHandler } from "../../mcp/src/types.js";
+import type { NodeHandler } from "../../mcp/src/types";
 
 /** Normalise AU phone numbers to E.164 (+61...) */
 function normaliseAU(phone: string): string {
